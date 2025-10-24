@@ -17,5 +17,17 @@ request = input("Введіть назву однієї групи для екс
 while request not in set(all_students[i]['Група'] for i in range(len(all_students))):
     request = input("Введіть дійсну назву групи для експорту: ")
 
-for student in all_students:
-    if student['Група'] == request: print(student)
+fieldnames = ['Id', 'Прізвище', 'Ім\'я', 'Група',
+              'Основи програмування', 'Лінійна алгебра',
+              'Проекційна геометрія', 'Математичний аналіз',
+              'Середня оцінка']
+
+with open(f"{request}.txt", mode='w', encoding='utf-8', newline='') as file:
+    writer = csv.DictWriter(file, fieldnames=fieldnames)
+    writer.writeheader()
+
+    for student in all_students:
+        if student["Група"] == request:
+            writer.writerow(student)
+
+print(f"Завершено. Створено файл {request}.")
